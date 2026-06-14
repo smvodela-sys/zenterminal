@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zen Terminal — Institutional-Grade Analytics. Privately Yours.</title>
+  <meta name="description" content="Professional signal intelligence for hedge fund managers, portfolio analysts, and serious traders. Your data never leaves your device." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #050810;
+      --bg2:       #0a0f1e;
+      --bg3:       #0d1530;
+      --card:      #111827;
+      --card2:     #161f35;
+      --border:    rgba(255,255,255,0.07);
+      --border2:   rgba(0,200,150,0.25);
+      --accent:    #00C896;
+      --accent2:   #00a87e;
+      --accent-dim:rgba(0,200,150,0.10);
+      --gold:      #FFB020;
+      --gold-dim:  rgba(255,176,32,0.10);
+      --red:       #FF4D6D;
+      --text:      #E8ECF4;
+      --muted:     #7A8BA0;
+      --dim:       #3D4F63;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Utility ─────────────────────────────────── */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .accent  { color: var(--accent); }
+    .gold    { color: var(--gold); }
+    .muted   { color: var(--muted); }
+    .mono    { font-family: 'Space Grotesk', monospace; }
+
+    /* ── Nav ─────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(5,8,16,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 24px;
+      height: 64px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo-mark {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: var(--accent); display: flex; align-items: center;
+      justify-content: center;
+    }
+    .nav-logo-mark svg { width: 18px; height: 18px; fill: #050810; }
+    .nav-logo-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px; font-weight: 700; color: var(--text);
+    }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 14px; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent); color: #050810 !important;
+      padding: 8px 20px; border-radius: 8px;
+      font-weight: 600 !important; font-size: 13px !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--accent2) !important; }
+
+    /* ── Hero ────────────────────────────────────── */
+    .hero {
+      padding: 144px 0 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 600px;
+      background: radial-gradient(ellipse at center, rgba(0,200,150,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent-dim); border: 1px solid var(--border2);
+      padding: 5px 14px; border-radius: 100px; margin-bottom: 24px;
+      font-size: 12px; font-weight: 600; color: var(--accent);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .hero-eyebrow svg { width: 12px; height: 12px; fill: var(--accent); }
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 700; line-height: 1.12; letter-spacing: -0.02em;
+      margin-bottom: 24px; color: var(--text);
+    }
+    .hero-sub {
+      font-size: 18px; color: var(--muted); line-height: 1.7;
+      margin-bottom: 40px; max-width: 480px;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #050810;
+      padding: 14px 28px; border-radius: 10px;
+      font-size: 15px; font-weight: 700; text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--text);
+      padding: 14px 28px; border-radius: 10px;
+      border: 1px solid var(--border2);
+      font-size: 15px; font-weight: 600; text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover { background: var(--accent-dim); border-color: var(--accent); }
+    .hero-img-wrap {
+      position: relative;
+    }
+    .hero-screen {
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border2);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--border);
+      aspect-ratio: 16/10;
+      background: var(--card);
+      position: relative;
+    }
+    .hero-screen img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .hero-float-card {
+      position: absolute; bottom: -24px; left: -32px;
+      background: var(--card2); border: 1px solid var(--border2);
+      border-radius: 12px; padding: 14px 18px;
+      display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .float-dot {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--accent-dim); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .float-dot svg { width: 16px; height: 16px; stroke: var(--accent); fill: none; stroke-width: 2; }
+    .float-label { font-size: 11px; color: var(--muted); }
+    .float-value { font-size: 16px; font-weight: 700; color: var(--accent); font-family: 'Space Grotesk', sans-serif; }
+
+    /* ── Stats bar ───────────────────────────────── */
+    .stats-bar {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 36px 0; margin: 80px 0 0;
+      background: var(--bg2);
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; text-align: center;
+    }
+    .stat-item { padding: 0 24px; }
+    .stat-item + .stat-item { border-left: 1px solid var(--border); }
+    .stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 36px; font-weight: 700; color: var(--text);
+      letter-spacing: -0.02em; line-height: 1;
+    }
+    .stat-num span { color: var(--accent); }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+    /* ── Section headers ─────────────────────────── */
+    .section { padding: 96px 0; }
+    .section-label {
+      display: inline-block;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 700; letter-spacing: -0.02em; line-height: 1.15;
+      margin-bottom: 16px; color: var(--text);
+    }
+    .section-sub {
+      font-size: 17px; color: var(--muted); max-width: 560px; line-height: 1.7;
+    }
+    .section-header { margin-bottom: 56px; }
+    .section-header-center { text-align: center; }
+    .section-header-center .section-sub { margin: 0 auto; }
+
+    /* ── Feature cards ───────────────────────────── */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    .feat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .feat-card:hover { border-color: var(--border2); background: var(--card2); }
+    .feat-card.accent-card { border-color: var(--border2); background: var(--card2); }
+    .feat-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 18px; flex-shrink: 0;
+    }
+    .feat-icon svg { width: 22px; height: 22px; stroke-width: 1.8; fill: none; }
+    .icon-teal  { background: var(--accent-dim); }
+    .icon-teal svg { stroke: var(--accent); }
+    .icon-gold  { background: var(--gold-dim); }
+    .icon-gold svg { stroke: var(--gold); }
+    .icon-red   { background: rgba(255,77,109,0.10); }
+    .icon-red svg { stroke: var(--red); }
+    .icon-blue  { background: rgba(74,144,255,0.10); }
+    .icon-blue svg { stroke: #4A90FF; }
+    .icon-purple { background: rgba(167,139,250,0.10); }
+    .icon-purple svg { stroke: #A78BFA; }
+    .icon-pink  { background: rgba(244,114,182,0.10); }
+    .icon-pink svg { stroke: #F472B6; }
+    .feat-card h3 {
+      font-size: 17px; font-weight: 600; color: var(--text);
+      margin-bottom: 10px; letter-spacing: -0.01em;
+    }
+    .feat-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+    .feat-tag {
+      display: inline-block; margin-top: 14px;
+      padding: 3px 10px; border-radius: 4px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+    }
+    .tag-teal { background: var(--accent-dim); color: var(--accent); }
+    .tag-gold  { background: var(--gold-dim);  color: var(--gold);  }
+    .tag-red   { background: rgba(255,77,109,0.10); color: var(--red); }
+
+    /* ── Screenshot showcase ─────────────────────── */
+    .showcase { padding: 80px 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .showcase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+    .showcase-item {
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card);
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .showcase-item:hover { border-color: var(--border2); transform: translateY(-4px); }
+    .showcase-img {
+      aspect-ratio: 16/10; overflow: hidden; position: relative;
+      background: var(--bg3);
+    }
+    .showcase-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .showcase-caption {
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .showcase-caption strong { font-size: 13px; font-weight: 600; color: var(--text); display: block; }
+    .showcase-caption span { font-size: 12px; color: var(--muted); }
+
+    /* ── Privacy section ─────────────────────────── */
+    .privacy-section {
+      padding: 96px 0;
+    }
+    .privacy-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .privacy-visual {
+      background: var(--card2); border: 1px solid var(--border2);
+      border-radius: 20px; padding: 40px 32px;
+      position: relative; overflow: hidden;
+    }
+    .privacy-visual::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,200,150,0.08), transparent 70%);
+    }
+    .privacy-lock {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--accent-dim); border: 2px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px;
+    }
+    .privacy-lock svg { width: 34px; height: 34px; stroke: var(--accent); fill: none; stroke-width: 1.8; }
+    .privacy-visual h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px; font-weight: 700; color: var(--text);
+      margin-bottom: 8px;
+    }
+    .privacy-visual p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 28px; }
+    .privacy-checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .privacy-checklist li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 14px; color: var(--text);
+    }
+    .check-icon {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--accent-dim); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .check-icon svg { width: 10px; height: 10px; stroke: var(--accent); fill: none; stroke-width: 3; }
+    .privacy-copy { padding-left: 8px; }
+    .privacy-copy h4 { font-size: 18px; font-weight: 600; margin-bottom: 14px; color: var(--text); }
+    .privacy-copy p { font-size: 15px; color: var(--muted); line-height: 1.75; margin-bottom: 20px; }
+    .privacy-pillars {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px;
+    }
+    .pillar {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px;
+    }
+    .pillar-icon { font-size: 20px; margin-bottom: 8px; }
+    .pillar strong { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .pillar span { font-size: 12px; color: var(--muted); }
+
+    /* ── Adaptive learning ───────────────────────── */
+    .ai-section {
+      padding: 96px 0; background: var(--bg2);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .ai-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .ai-screen {
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(255,176,32,0.2);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      aspect-ratio: 4/3; background: var(--card);
+    }
+    .ai-screen img { width: 100%; height: 100%; object-fit: cover; }
+    .ai-copy h2 { margin-bottom: 20px; }
+    .ai-copy p { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 28px; }
+    .ai-stat-row { display: flex; gap: 20px; margin-top: 32px; }
+    .ai-stat {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px 16px; text-align: center;
+    }
+    .ai-stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px; font-weight: 700; color: var(--gold); line-height: 1;
+    }
+    .ai-stat-label { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+    /* ── Indicators ──────────────────────────────── */
+    .indicators-section { padding: 96px 0; }
+    .indicators-hero-img {
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(74,144,255,0.2);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      aspect-ratio: 16/9; background: var(--card);
+      margin-top: 48px;
+    }
+    .indicators-hero-img img { width: 100%; height: 100%; object-fit: cover; }
+    .indicators-chips {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px;
+    }
+    .chip {
+      padding: 6px 14px; border-radius: 100px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.03em;
+      border: 1px solid var(--border);
+      background: var(--card); color: var(--muted);
+    }
+    .chip.active { border-color: var(--border2); color: var(--accent); background: var(--accent-dim); }
+
+    /* ── Platforms ───────────────────────────────── */
+    .platforms-section {
+      padding: 96px 0; background: var(--bg2);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .platforms-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 48px; }
+    .platform-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px 20px; text-align: center;
+      transition: border-color 0.2s;
+    }
+    .platform-card:hover { border-color: var(--border2); }
+    .platform-icon {
+      width: 56px; height: 56px; border-radius: 14px;
+      background: var(--card2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .platform-icon svg { width: 28px; height: 28px; stroke: var(--text); fill: none; stroke-width: 1.5; }
+    .platform-card h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+    .platform-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .platform-badge {
+      display: inline-block; margin-top: 14px;
+      padding: 3px 10px; border-radius: 4px;
+      background: var(--accent-dim); color: var(--accent);
+      font-size: 11px; font-weight: 600;
+    }
+
+    /* ── Workflow ────────────────────────────────── */
+    .workflow-section { padding: 96px 0; }
+    .workflow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 56px; }
+    .workflow-screen {
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      aspect-ratio: 4/3; background: var(--card);
+    }
+    .workflow-screen img { width: 100%; height: 100%; object-fit: cover; }
+    .workflow-steps { display: flex; flex-direction: column; gap: 28px; }
+    .workflow-step { display: flex; gap: 18px; }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+      background: var(--accent-dim); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px; font-weight: 700; color: var(--accent);
+    }
+    .step-body h4 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .step-body p  { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── Use cases ───────────────────────────────── */
+    .usecases-section { padding: 96px 0; background: var(--bg2); border-top: 1px solid var(--border); }
+    .usecases-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+    .usecase-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+    }
+    .usecase-img {
+      aspect-ratio: 16/9; background: var(--bg3); overflow: hidden;
+    }
+    .usecase-img img { width: 100%; height: 100%; object-fit: cover; }
+    .usecase-body { padding: 22px; }
+    .usecase-badge {
+      display: inline-block; margin-bottom: 12px;
+      padding: 3px 10px; border-radius: 4px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+    }
+    .badge-teal { background: var(--accent-dim); color: var(--accent); }
+    .badge-gold { background: var(--gold-dim); color: var(--gold); }
+    .badge-blue { background: rgba(74,144,255,0.10); color: #4A90FF; }
+    .usecase-body h3 { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+    .usecase-body p  { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── CTA ─────────────────────────────────────── */
+    .cta-section { padding: 120px 0; text-align: center; position: relative; }
+    .cta-section::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse at center, rgba(0,200,150,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-inner { position: relative; }
+    .cta-section h2 { font-size: clamp(32px, 4vw, 52px); margin-bottom: 20px; }
+    .cta-section p  { font-size: 18px; color: var(--muted); margin-bottom: 44px; max-width: 540px; margin-left: auto; margin-right: auto; }
+    .cta-actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+    /* ── Footer ──────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+    }
+    .footer-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .footer-logo-mark {
+      width: 28px; height: 28px; border-radius: 6px;
+      background: var(--accent); display: flex; align-items: center; justify-content: center;
+    }
+    .footer-logo-mark svg { width: 14px; height: 14px; fill: #050810; }
+    .footer-logo-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px; font-weight: 700; color: var(--text);
+    }
+    .footer-note { font-size: 13px; color: var(--dim); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── Responsive ──────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-grid, .privacy-grid, .ai-grid, .workflow-grid { grid-template-columns: 1fr; gap: 40px; }
+      .features-grid, .showcase-grid, .usecases-grid { grid-template-columns: 1fr 1fr; }
+      .platforms-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(3) { border-left: none; }
+      .hero-float-card { display: none; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .features-grid, .showcase-grid, .usecases-grid, .platforms-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .ai-stat-row { flex-direction: column; }
+      .privacy-pillars { grid-template-columns: 1fr; }
+    }
+
+    /* ── Image placeholder ───────────────────────── */
+    .img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg3);
+      color: var(--dim); font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ──────────────────────────── NAV ──────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">
+      <div class="nav-logo-mark">
+        <svg viewBox="0 0 18 18"><path d="M2 14 L9 2 L16 14 Z" fill="#050810"/><rect x="5.5" y="10" width="7" height="2" fill="#00C896" rx="1"/></svg>
+      </div>
+      <span class="nav-logo-text">Zen Terminal</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#signals">Signals</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#platforms">Platforms</a>
+      <a href="#usecases">Use Cases</a>
+      <a href="#get-started" class="nav-cta">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ──────────────────────────── HERO ──────────────────────────── -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">
+          <svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="4"/></svg>
+          Institutional-Grade Analytics
+        </div>
+        <h1>Trade Smarter.<br><span class="accent">Stay Private.</span><br>Move Faster.</h1>
+        <p class="hero-sub">
+          A professional signal intelligence platform built for hedge fund managers, portfolio analysts, and serious traders. Your data, your device — no cloud, no leaks, no compromise.
+        </p>
+        <div class="hero-actions">
+          <a href="#get-started" class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            Download Free
+          </a>
+          <a href="#features" class="btn-secondary">
+            Explore Features →
+          </a>
+        </div>
+      </div>
+      <div class="hero-img-wrap">
+        <div class="hero-screen">
+          <img src="./image/image1.jpg" alt="Zen Terminal dashboard" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Dashboard — image1.jpg</div>'" />
+        </div>
+        <div class="hero-float-card">
+          <div class="float-dot">
+            <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          </div>
+          <div>
+            <div class="float-label">Composite Signal</div>
+            <div class="float-value accent">BULLISH +0.74</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="stats-bar" style="margin-top: 80px; margin-left: -24px; margin-right: -24px; padding-left: 24px; padding-right: 24px;">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-num">26<span>+</span></div>
+          <div class="stat-label">Technical & Fundamental Indicators</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Platforms — iOS · Android · macOS · Windows</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">0</div>
+          <div class="stat-label">Cloud Dependencies. 100% Local Database</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">90<span>d</span></div>
+          <div class="stat-label">Forward Price Predictions with Adaptive Learning</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────── FEATURES ──────────────────────── -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Core Capabilities</span>
+      <h2>Every tool a serious<br>market professional needs</h2>
+      <p class="section-sub">Built from the ground up for speed, accuracy, and discretion. No bloat, no distractions — just the signal.</p>
+    </div>
+
+    <div class="features-grid">
+
+      <!-- Signal Analysis -->
+      <div class="feat-card accent-card">
+        <div class="feat-icon icon-teal">
+          <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        </div>
+        <h3>Composite Signal Engine</h3>
+        <p>18 built-in technical indicators (EMA, MACD, RSI, BB, ADX, Ichimoku, VWAP and more) fuse into a single directional score — Bullish, Bearish, or Neutral — with full score breakdown per indicator.</p>
+        <span class="feat-tag tag-teal">Core</span>
+      </div>
+
+      <!-- Adaptive Learning -->
+      <div class="feat-card">
+        <div class="feat-icon icon-gold">
+          <svg viewBox="0 0 24 24"><path d="M12 2a9 9 0 0 1 9 9"/><path d="M3 11a9 9 0 0 1 9-9"/><circle cx="12" cy="12" r="4"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <h3>Adaptive Learning Predictions</h3>
+        <p>90-day forward price forecasting that recalibrates as you enter actual close prices. The model adjusts remaining predictions in real-time based on your observed vs. expected deviation.</p>
+        <span class="feat-tag tag-gold">AI</span>
+      </div>
+
+      <!-- Indicator Profile -->
+      <div class="feat-card">
+        <div class="feat-icon icon-blue">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3>Custom Indicator Profiles</h3>
+        <p>Weight each indicator from 0–50% to match your thesis. Enable or disable individual signals. Export and import profiles as JSON across all your devices — no spreadsheet needed.</p>
+        <span class="feat-tag tag-teal">Customization</span>
+      </div>
+
+      <!-- Watchlist -->
+      <div class="feat-card">
+        <div class="feat-icon icon-teal">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 17h7m-3.5-3.5v7"/></svg>
+        </div>
+        <h3>Smart Watchlist</h3>
+        <p>Track any ticker with instant signal summary, composite score, and price alerts. Set target prices with tolerance bands — get notified when levels are breached.</p>
+        <span class="feat-tag tag-teal">Monitoring</span>
+      </div>
+
+      <!-- Leaders -->
+      <div class="feat-card">
+        <div class="feat-icon icon-purple">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Leader Portfolio Tracker</h3>
+        <p>Monitor the disclosed positions of high-profile investors and institutional portfolio managers. See their sector weightings and apply their frameworks to your own analysis.</p>
+        <span class="feat-tag tag-teal">Intelligence</span>
+      </div>
+
+      <!-- Backtest -->
+      <div class="feat-card">
+        <div class="feat-icon icon-gold">
+          <svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        </div>
+        <h3>Strategy Backtesting</h3>
+        <p>Test your signal configurations against historical price data before putting capital at risk. Compare signal weights, entry/exit rules, and see equity curves on local data.</p>
+        <span class="feat-tag tag-gold">Research</span>
+      </div>
+
+      <!-- Macro Calendar -->
+      <div class="feat-card">
+        <div class="feat-icon icon-red">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3>Macro Event Calendar</h3>
+        <p>Stay ahead of market-moving events — Fed meetings, CPI prints, earnings, GDP releases. Context-aware calendar integrated directly into the analytics workflow.</p>
+        <span class="feat-tag tag-red">Macro</span>
+      </div>
+
+      <!-- Fundamentals -->
+      <div class="feat-card">
+        <div class="feat-icon icon-blue">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>Fundamental Overlay</h3>
+        <p>Blend quantitative fundamentals — P/E, Forward P/E, EV/EBITDA, ROE, Beta, Revenue Growth, Gross Margin — directly into your composite signal weighting alongside technical indicators.</p>
+        <span class="feat-tag tag-teal">Fundamental</span>
+      </div>
+
+      <!-- Private Sync -->
+      <div class="feat-card">
+        <div class="feat-icon icon-pink">
+          <svg viewBox="0 0 24 24"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0-1.286.572a2 2 0 0 1-1.714 0L9 14.5a2 2 0 0 0-1.714 0L6 15m14 1v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3"/></svg>
+        </div>
+        <h3>Air-Gap Safe Sync</h3>
+        <p>Move your complete database between devices via JSON export — no Wi-Fi server, no cloud upload, no API keys. Email it to yourself. AirDrop it. Keep your data on surfaces you control.</p>
+        <span class="feat-tag tag-teal">Private</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────── SCREENSHOTS ───────────────────── -->
+<section class="showcase" id="signals">
+  <div class="container">
+    <div class="section-header-center section-header">
+      <span class="section-label">In Action</span>
+      <h2>Clean data. Clear decisions.</h2>
+      <p class="section-sub">Designed for the trading floor and the home office — dark, distraction-free, built for speed.</p>
+    </div>
+
+    <div class="showcase-grid">
+      <div class="showcase-item">
+        <div class="showcase-img">
+          <img src="./image/image2.jpg" alt="Signal Analysis" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Signal Analysis — image2.jpg</div>'" />
+        </div>
+        <div class="showcase-caption">
+          <strong>Signal Analysis</strong>
+          <span>Composite score with per-indicator breakdown</span>
+        </div>
+      </div>
+      <div class="showcase-item">
+        <div class="showcase-img">
+          <img src="./image/image3.jpg" alt="Adaptive Predictions" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Predictions — image3.jpg</div>'" />
+        </div>
+        <div class="showcase-caption">
+          <strong>Adaptive Predictions</strong>
+          <span>90-day forecast with actuals recalibration</span>
+        </div>
+      </div>
+      <div class="showcase-item">
+        <div class="showcase-img">
+          <img src="./image/image4.jpg" alt="Indicator Profile" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Indicator Profile — image4.jpg</div>'" />
+        </div>
+        <div class="showcase-caption">
+          <strong>Indicator Profile</strong>
+          <span>Fine-tune weights for your investment thesis</span>
+        </div>
+      </div>
+      <div class="showcase-item">
+        <div class="showcase-img">
+          <img src="./image/image5.jpg" alt="Macro Calendar" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Macro Calendar — image5.jpg</div>'" />
+        </div>
+        <div class="showcase-caption">
+          <strong>Macro Calendar</strong>
+          <span>Economic events integrated with your watchlist</span>
+        </div>
+      </div>
+      <div class="showcase-item">
+        <div class="showcase-img">
+          <img src="./image/image6.jpg" alt="Leader Portfolios" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Leader Portfolios — image6.jpg</div>'" />
+        </div>
+        <div class="showcase-caption">
+          <strong>Leader Portfolios</strong>
+          <span>Track high-profile investor positions</span>
+        </div>
+      </div>
+      <div class="showcase-item">
+        <div class="showcase-img">
+          <img src="./image/image7.jpg" alt="Price Alerts & Watchlist" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Watchlist &amp; Alerts — image7.jpg</div>'" />
+        </div>
+        <div class="showcase-caption">
+          <strong>Watchlist &amp; Alerts</strong>
+          <span>Price triggers with tolerance bands</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────── PRIVACY ───────────────────────── -->
+<section class="privacy-section" id="privacy">
+  <div class="container">
+    <div class="privacy-grid">
+      <div class="privacy-visual">
+        <div class="privacy-lock">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h3>Your data never leaves<br>your device.</h3>
+        <p>In an industry where information asymmetry is everything, leaking your positions or thesis — even accidentally — is unacceptable. Zen Terminal was designed with this constraint as first principle.</p>
+        <ul class="privacy-checklist">
+          <li>
+            <div class="check-icon"><svg viewBox="0 0 10 10"><polyline points="1.5 5 4 7.5 8.5 2.5"/></svg></div>
+            <span>SQLite database stored exclusively on-device</span>
+          </li>
+          <li>
+            <div class="check-icon"><svg viewBox="0 0 10 10"><polyline points="1.5 5 4 7.5 8.5 2.5"/></svg></div>
+            <span>No analytics, no telemetry, no phone-home calls</span>
+          </li>
+          <li>
+            <div class="check-icon"><svg viewBox="0 0 10 10"><polyline points="1.5 5 4 7.5 8.5 2.5"/></svg></div>
+            <span>Cross-device sync via encrypted JSON — you control the channel</span>
+          </li>
+          <li>
+            <div class="check-icon"><svg viewBox="0 0 10 10"><polyline points="1.5 5 4 7.5 8.5 2.5"/></svg></div>
+            <span>Fully functional on airplane mode — no internet required</span>
+          </li>
+          <li>
+            <div class="check-icon"><svg viewBox="0 0 10 10"><polyline points="1.5 5 4 7.5 8.5 2.5"/></svg></div>
+            <span>No cloud accounts, no OAuth tokens, no exposure vectors</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="privacy-copy">
+        <span class="section-label">Privacy First</span>
+        <h2>Compliance-ready.<br>Discretion built in.</h2>
+        <p>Hedge fund managers operate under strict information barrier obligations. A terminal that syncs your thesis to a third-party cloud isn't just a privacy concern — it's a compliance risk.</p>
+        <p>Zen Terminal is the only professional trading analytics app with a zero-cloud, zero-server architecture. Your watchlist, signals, and predictions exist only where you put them.</p>
+
+        <div class="privacy-pillars">
+          <div class="pillar">
+            <div class="pillar-icon" style="color: var(--accent);">⊘</div>
+            <strong>No Cloud Storage</strong>
+            <span>All data stays local. SQLite on-device only.</span>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon" style="color: var(--gold);">↔</div>
+            <strong>JSON Transfer</strong>
+            <span>You choose the channel — AirDrop, email, USB.</span>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon" style="color: #4A90FF;">✈</div>
+            <strong>Offline First</strong>
+            <span>Full functionality without any internet connection.</span>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon" style="color: #A78BFA;">⊕</div>
+            <strong>Auto Backup</strong>
+            <span>Daily local JSON backup to your chosen folder.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────── AI / ADAPTIVE ─────────────────── -->
+<section class="ai-section">
+  <div class="container">
+    <div class="ai-grid">
+      <div class="ai-screen">
+        <img src="./image/image3.jpg" alt="Adaptive Learning Engine" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Adaptive Learning — image3.jpg</div>'" />
+      </div>
+      <div class="ai-copy">
+        <span class="section-label">Adaptive Intelligence</span>
+        <h2>Predictions that learn<br><span class="gold">from what actually happens.</span></h2>
+        <p>Most forecasting tools show you a line and call it a day. Zen Terminal's Adaptive Learning engine generates 90-day forward close price projections, then recalibrates every remaining prediction the moment you enter a verified actual close.</p>
+        <p>The system weights your indicator profile to generate forecasts, then applies a sequential correction chain — if reality deviates from the model, the entire forward curve adjusts proportionally.</p>
+        <div class="ai-stat-row">
+          <div class="ai-stat">
+            <div class="ai-stat-num">90</div>
+            <div class="ai-stat-label">Day forward curve</div>
+          </div>
+          <div class="ai-stat">
+            <div class="ai-stat-num">Live</div>
+            <div class="ai-stat-label">Recalibration on entry</div>
+          </div>
+          <div class="ai-stat">
+            <div class="ai-stat-num">100%</div>
+            <div class="ai-stat-label">On-device computation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────── INDICATORS ────────────────────── -->
+<section class="indicators-section">
+  <div class="container">
+    <div class="section-header-center section-header">
+      <span class="section-label">Signal Intelligence</span>
+      <h2>26 indicators. One score.<br>Infinite configurations.</h2>
+      <p class="section-sub">Weight every indicator to match your market thesis. A momentum trader runs RSI and MACD heavy. A macro trader cranks up VIX and KALSHI sentiment. Your edge, codified.</p>
+    </div>
+
+    <div class="indicators-chips">
+      <span class="chip active">EMA</span>
+      <span class="chip active">MACD</span>
+      <span class="chip active">RSI</span>
+      <span class="chip active">BB</span>
+      <span class="chip active">ADX</span>
+      <span class="chip active">ICHIMOKU</span>
+      <span class="chip active">SMA</span>
+      <span class="chip active">STOCH</span>
+      <span class="chip active">WILLR</span>
+      <span class="chip active">CCI</span>
+      <span class="chip active">ROC</span>
+      <span class="chip active">OBV</span>
+      <span class="chip active">MFI</span>
+      <span class="chip active">VWAP</span>
+      <span class="chip active">ATR</span>
+      <span class="chip active">PSAR</span>
+      <span class="chip">VIX</span>
+      <span class="chip">KALSHI</span>
+      <span class="chip">P/E</span>
+      <span class="chip">Forward P/E</span>
+      <span class="chip">EV/EBITDA</span>
+      <span class="chip">ROE</span>
+      <span class="chip">Beta</span>
+      <span class="chip">Revenue Growth</span>
+      <span class="chip">Gross Margin</span>
+      <span class="chip">EBITDA Margin</span>
+    </div>
+
+    <div class="indicators-hero-img">
+      <img src="./image/image4.jpg" alt="Indicator Profile Screen" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Indicator Profile — image4.jpg</div>'" />
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────── PLATFORMS ─────────────────────── -->
+<section class="platforms-section" id="platforms">
+  <div class="container">
+    <div class="section-header-center section-header">
+      <span class="section-label">Cross-Platform</span>
+      <h2>One brain. Every screen.</h2>
+      <p class="section-sub">Your full analytical environment syncs across every device you use — trading desk, MacBook, iPhone, and Android — without touching a server.</p>
+    </div>
+
+    <div class="platforms-grid">
+      <div class="platform-card">
+        <div class="platform-icon">
+          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <h3>iPhone &amp; iPad</h3>
+        <p>Full-featured iOS client. Share exports via AirDrop, iMessage, or Mail.</p>
+        <span class="platform-badge">iOS 15+</span>
+      </div>
+      <div class="platform-card">
+        <div class="platform-icon">
+          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <h3>Android</h3>
+        <p>Native Android app with full signal engine, predictions, and JSON sync.</p>
+        <span class="platform-badge">Android 9+</span>
+      </div>
+      <div class="platform-card">
+        <div class="platform-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>macOS</h3>
+        <p>Native desktop app with sidebar navigation, FilePicker backup, and full DB sync.</p>
+        <span class="platform-badge">macOS 12+</span>
+      </div>
+      <div class="platform-card">
+        <div class="platform-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>Windows</h3>
+        <p>Full Windows desktop client — identical feature set, same local-only architecture.</p>
+        <span class="platform-badge">Windows 10+</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 48px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border);">
+      <img src="./image/image8.jpg" alt="Multi-device Zen Terminal" style="width: 100%; display: block; aspect-ratio: 21/9; object-fit: cover; background: var(--card);" onerror="this.style.display='none'" />
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────── WORKFLOW ──────────────────────── -->
+<section class="workflow-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">How It Works</span>
+      <h2>From first ticker<br>to actionable signal</h2>
+    </div>
+    <div class="workflow-grid">
+      <div class="workflow-screen">
+        <img src="./image/image2.jpg" alt="Signal Workflow" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Workflow — image2.jpg</div>'" />
+      </div>
+      <div class="workflow-steps">
+        <div class="workflow-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Add your tickers</h4>
+            <p>Build your watchlist in seconds. Zen Terminal pulls price history automatically and begins computing signals against your current indicator profile.</p>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Configure your signal weights</h4>
+            <p>Open Indicator Profile, adjust the slider for each technical or fundamental indicator, normalise to 100%, and save. Your weights persist across all platforms via JSON export.</p>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Read the composite signal</h4>
+            <p>Each ticker shows a single composite score — positive is bullish, negative bearish — with the individual indicator contributions visible below. No ambiguity.</p>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Track predictions against reality</h4>
+            <p>Run the Adaptive Learning engine to generate a 90-day price forecast. Enter actual closes as they arrive and watch the remaining predictions self-correct.</p>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>Sync privately — your way</h4>
+            <p>Export a complete JSON backup from your desktop, email or AirDrop it to your phone, and import. No accounts. No servers. Information barrier maintained.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────── USE CASES ─────────────────────── -->
+<section class="usecases-section" id="usecases">
+  <div class="container">
+    <div class="section-header-center section-header">
+      <span class="section-label">Who Uses Zen Terminal</span>
+      <h2>At work. At home. In the air.</h2>
+      <p class="section-sub">From the trading floor to a business class seat — your research travels with you and stays yours.</p>
+    </div>
+
+    <div class="usecases-grid">
+      <div class="usecase-card">
+        <div class="usecase-img">
+          <img src="./image/image2.jpg" alt="Trading Floor" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Trading Floor</div>'" />
+        </div>
+        <div class="usecase-body">
+          <span class="usecase-badge badge-teal">Trading Desk</span>
+          <h3>Your secondary screen on the floor</h3>
+          <p>Run Zen Terminal on your macOS or Windows workstation alongside your primary terminal. Customised signal weights surface confirmation or divergence signals that complement your existing flow.</p>
+        </div>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-img">
+          <img src="./image/image6.jpg" alt="Home Office" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Home Office</div>'" />
+        </div>
+        <div class="usecase-body">
+          <span class="usecase-badge badge-gold">Home Office</span>
+          <h3>Seamless continuity away from the desk</h3>
+          <p>Export your full database from the office Mac, import to your home iMac or Windows PC. Same watchlist, same predictions, same indicator profile — zero manual re-entry, zero cloud exposure.</p>
+        </div>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-img">
+          <img src="./image/image5.jpg" alt="Travelling" onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'>Travelling</div>'" />
+        </div>
+        <div class="usecase-body">
+          <span class="usecase-badge badge-blue">On the Move</span>
+          <h3>Full research capability in your pocket</h3>
+          <p>iPhone and Android clients carry the complete feature set. Works fully offline at 35,000 feet. Pre-load your macro calendar before boarding, review signals during the flight, land ready to act.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────── CTA ───────────────────────────── -->
+<section class="cta-section" id="get-started">
+  <div class="container">
+    <div class="cta-inner">
+      <span class="section-label">Get Started Today</span>
+      <h2>Professional analytics.<br><span class="accent">Zero compromises.</span></h2>
+      <p>Join the hedge fund managers, portfolio analysts, and professional traders who keep their edge — and their data — private.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          Download for macOS
+        </a>
+        <a href="#" class="btn-secondary">Download for Windows →</a>
+        <a href="#" class="btn-secondary">App Store →</a>
+        <a href="#" class="btn-secondary">Google Play →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────── FOOTER ────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <div class="footer-logo-mark">
+          <svg viewBox="0 0 14 14"><path d="M1 11 L7 1 L13 11 Z" fill="#050810"/><rect x="4" y="8" width="6" height="1.5" fill="#00C896" rx="0.75"/></svg>
+        </div>
+        <span class="footer-logo-text">Zen Terminal</span>
+      </div>
+      <div class="footer-note">
+        Institutional-grade analytics. Private by design. &copy; 2026 Zen Terminal.
+      </div>
+      <div class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#platforms">Platforms</a>
+        <a href="#get-started">Download</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.feat-card, .showcase-item, .platform-card, .usecase-card, .workflow-step').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
